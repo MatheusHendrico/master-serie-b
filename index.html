@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Série B - Dashboard Completo</title>
+    <title>Master Série B - Dashboard Completo 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         /* --- CSS RESET & VARS --- */
         :root {
             --bg-dark: #050505;
-            --card-bg: #121212;
+            --card-bg: #111;
+            --insight-bg: #161616;
             --neon-green: #ccff00;
             --electric-purple: #8a2be2;
             --text-main: #ffffff;
-            --gradient-main: linear-gradient(135deg, var(--electric-purple), var(--neon-green));
+            --border-color: #222;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,16 +27,23 @@
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1250px; margin: 0 auto; padding: 20px; }
 
-        /* --- PARTICULAS DE BOLA --- */
+        /* --- EFEITO BOLA DE FUTEBOL (PARTÍCULAS) --- */
         .soccer-particle {
-            position: fixed; pointer-events: none; font-size: 20px;
-            animation: fadeAndDrop 1s forwards; z-index: 9999; opacity: 0.8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            font-size: 20px;
+            animation: fadeAndDrop 1s forwards;
+            z-index: 9999;
+            opacity: 0.8;
         }
+
         @keyframes fadeAndDrop {
             0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
             100% { transform: translate(-50%, 50px) scale(0.5); opacity: 0; }
@@ -45,22 +51,23 @@
 
         /* --- HEADER --- */
         header {
-            height: 80vh; display: flex; flex-direction: column;
+            height: 60vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             background: radial-gradient(circle at 50% 50%, #2a0e45 0%, #000 70%);
+            margin-bottom: 60px;
         }
 
         h1 {
-            font-size: 4rem; line-height: 1; text-transform: uppercase;
-            font-weight: 900; background: var(--gradient-main);
+            font-size: 3.5rem; line-height: 1; text-transform: uppercase;
+            font-weight: 900; background: linear-gradient(135deg, var(--electric-purple), var(--neon-green));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         /* --- BIG NUMBERS --- */
         .grid-stats {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px; margin: -60px 0 60px 0; position: relative; z-index: 2;
+            gap: 20px; margin: -80px 0 80px 0; position: relative; z-index: 2;
         }
         .stat-card {
             background: rgba(20, 20, 20, 0.95); padding: 25px; border-radius: 15px;
@@ -71,83 +78,272 @@
         .number { font-size: 2.5rem; font-weight: 800; display: block; }
         .label { color: var(--neon-green); font-size: 0.8rem; text-transform: uppercase; font-weight: 700; }
 
-        /* --- CHARTS SECTIONS --- */
-        .chart-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px;
+        /* --- LAYOUT DINÂMICO (EXPANSÃO) --- */
+        .analytics-row {
+            display: grid;
+            /* Quando aberto: Gráfico (2.5 partes) | Insight (1 parte) */
+            grid-template-columns: 2.5fr 1fr; 
+            gap: 25px;
+            margin-bottom: 50px;
+            align-items: stretch;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animação mais suave */
         }
-        .chart-box {
-            background: #111; padding: 30px; border-radius: 20px;
-            border: 1px solid #222; position: relative;
+
+        /* ESTADO PADRÃO AGORA: FULL WIDTH (FECHADO) */
+        .analytics-row.full-width {
+            grid-template-columns: 1fr; /* 1 coluna apenas */
         }
-        .chart-title { text-transform: uppercase; font-size: 1.1rem; margin-bottom: 20px; border-left: 4px solid var(--neon-green); padding-left: 15px; }
+
+        .analytics-row.full-width .insight-box-side {
+            display: none; /* Some com a caixa de insight */
+            opacity: 0;
+        }
         
-        /* --- CLUBS SECTION --- */
-        .clubs-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px;
+        .analytics-row:not(.full-width) .insight-box-side {
+            display: flex;
+            animation: fadeInRight 0.5s ease forwards;
         }
-        .club-list h3 { margin-bottom: 15px; color: #888; }
-        .club-item {
-            background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- CAIXAS --- */
+        .chart-box {
+            background: var(--card-bg); padding: 25px; border-radius: 20px;
+            border: 1px solid var(--border-color); position: relative; min-height: 380px;
+            display: flex; flex-direction: column;
+            transition: width 0.4s ease;
+        }
+
+        .insight-box-side {
+            background: var(--insight-bg); padding: 25px; border-radius: 20px;
+            border: 1px dashed #333; flex-direction: column;
+        }
+
+        .chart-title { 
+            text-transform: uppercase; font-size: 1.1rem; margin-bottom: 20px; 
+            border-left: 4px solid var(--neon-green); padding-left: 15px; 
             display: flex; justify-content: space-between; align-items: center;
         }
-        .club-val { font-weight: bold; color: var(--neon-green); }
 
-        /* --- INSIGHTS SECTION (TACTICAL BOARD) --- */
-        .insights-section {
-            margin-top: 80px; position: relative;
-        }
-        .section-header {
-            text-align: center; margin-bottom: 40px;
-        }
-        .section-header h2 { font-size: 3rem; text-transform: uppercase; }
+        /* --- BOTÃO DE INSIGHT (LÂMPADA) --- */
+        .title-actions { display: flex; align-items: center; gap: 15px; }
         
-        .tactical-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        .insight-toggle-btn {
+            background: transparent; border: 1px solid #333; color: #555;
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s; font-size: 1rem;
+        }
+        
+        /* Estado Ativo (Lâmpada Acesa) */
+        .insight-toggle-btn.active {
+            background: rgba(204, 255, 0, 0.15);
+            color: var(--neon-green);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
         }
 
+        .insight-toggle-btn:hover { transform: scale(1.1); color: #888; }
+        .insight-toggle-btn.active:hover { color: var(--neon-green); }
+
+        /* --- TEXTO EDITÁVEL --- */
+        .insight-title-small {
+            color: var(--electric-purple); font-weight: bold; margin-bottom: 15px;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .editable-text {
+            color: #ccc; font-size: 0.9rem; line-height: 1.6; outline: none; flex-grow: 1;
+        }
+        .editable-text ul { padding-left: 20px; }
+        .editable-text li { margin-bottom: 8px; }
+
+        /* --- SWITCHES & MAPS --- */
+        .view-switch { display: flex; gap: 10px; }
+        .switch-btn {
+            background: #222; border: 1px solid #444; color: #888;
+            padding: 4px 12px; border-radius: 20px; cursor: pointer;
+            font-size: 0.65rem; font-weight: bold; text-transform: uppercase; transition: 0.3s;
+        }
+        .switch-btn.active {
+            background: var(--electric-purple); color: white; border-color: var(--electric-purple);
+        }
+
+        .chart-content { flex-grow: 1; position: relative; width: 100%; min-height: 300px; }
+        .chart-content canvas { width: 100% !important; height: 100% !important; }
+        
+        .map-placeholder {
+            display: none; height: 100%; width: 100%; min-height: 300px;
+            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+            align-items: center; justify-content: center; flex-direction: column;
+            border-radius: 10px; color: #555; text-align: center; border: 1px dashed #333;
+        }
+
+        /* --- RANKINGS --- */
+        .ranking-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px;
+        }
+        .ranking-box {
+            background: #111; border-radius: 20px; padding: 25px; border: 1px solid #222;
+        }
+        .ranking-list { list-style: none; max-height: 400px; overflow-y: auto; padding-right:5px;}
+        .ranking-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #222; font-size: 0.85rem;
+        }
+        .ranking-item:hover { background: #161616; }
+        .rank-num { 
+            background: #222; color: #888; width: 22px; height: 22px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: bold; margin-right: 10px;
+        }
+        .rank-val { color: var(--neon-green); font-weight: bold; }
+        .ranking-tabs { margin-bottom: 15px; border-bottom: 1px solid #333; display:flex; gap:10px; padding-bottom:10px;}
+        .tab-btn { background: none; border: none; color: #666; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .tab-btn.active { color: var(--neon-green); }
+
+        /* --- CLUBES --- */
+        .clubs-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px;
+        }
+        .club-list h3 { margin-bottom: 15px; color: #888; text-transform: uppercase; font-size: 1rem; }
+        .club-item {
+            background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent;
+        }
+        
+        /* --- TACTICAL BOARD --- */
+        .insights-section { margin-top: 80px; margin-bottom: 60px; }
+        .tactical-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px;
+        }
         .insight-card {
             background: #151515; border-radius: 20px; padding: 30px;
-            border-top: 5px solid #333; position: relative; overflow: hidden;
+            border-top: 5px solid #333; position: relative;
         }
-
         .insight-card.success { border-top-color: var(--neon-green); }
         .insight-card.warning { border-top-color: #ff9900; }
         .insight-card.danger { border-top-color: #ff3333; }
-
-        .insight-icon {
-            font-size: 2rem; margin-bottom: 20px; display: block;
-        }
-        .insight-card.success .insight-icon { color: var(--neon-green); }
-        .insight-card.warning .insight-icon { color: #ff9900; }
-        .insight-card.danger .insight-icon { color: #ff3333; }
-
-        .insight-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .insight-card p { color: #bbb; line-height: 1.6; margin-bottom: 15px; font-size: 0.95rem; }
-        .tag {
-            display: inline-block; padding: 5px 10px; border-radius: 5px;
-            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
-            background: #222; color: white;
+        .tag { 
+            display: inline-block; padding: 4px 10px; border-radius: 4px; 
+            font-size: 0.65rem; background: #222; margin-top: 15px; 
+            text-transform: uppercase; color: #aaa; letter-spacing: 1px;
         }
 
         /* --- APITO SOLIDARIO --- */
         .apito-box {
-            background: linear-gradient(45deg, #2a0e45, #111);
+            background: linear-gradient(135deg, #300000 0%, #1a0505 100%);
             border-radius: 20px; padding: 40px; margin-top: 60px;
             display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid var(--electric-purple);
+            border: 1px solid #ff3333; box-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
         }
-        
-        /* --- ANIMATIONS --- */
+
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .chart-row, .clubs-grid, .apito-box { grid-template-columns: 1fr; display: block; }
-            .apito-box { text-align: center; }
-            .apito-stats { margin-top: 20px; }
+        @media (max-width: 900px) {
+            .analytics-row, .ranking-grid, .clubs-grid, .tactical-grid { grid-template-columns: 1fr; }
+            .apito-box { flex-direction: column; text-align: center; gap: 20px; }
+            .top-social-row { flex-direction: column; }
+            .donut-box { width: 100% !important; margin-bottom: 20px; height: auto !important; }
         }
+
+        /* --- CSS DA SEÇÃO DE PARCEIROS --- */
+        .partners-section {
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsivo */
+            gap: 30px;
+            background: #111;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #222;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .partner-card {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px; /* Altura fixa para alinhar */
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .partner-card img {
+            max-width: 100%;
+            max-height: 80px;
+            filter: grayscale(100%) opacity(0.7); /* Efeito Preto e Branco */
+            transition: all 0.4s ease;
+        }
+
+        /* O PULO DO GATO: Hover Colorido */
+        .partner-card:hover img {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.1);
+        }
+
+        /* --- CSS DO MODAL --- */
+        .modal-overlay {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid var(--electric-purple);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            position: relative;
+            animation: modalPop 0.3s ease-out;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .close-btn:hover { color: #fff; }
+
+        .modal-item {
+            display: flex; align-items: center; margin-bottom: 10px;
+        }
+        .modal-item i { margin-right: 10px; color: var(--neon-green); width: 20px; text-align: center;}
+
     </style>
 </head>
 <body>
@@ -162,7 +358,6 @@
 
     <div class="container">
         
-        <!-- BIG NUMBERS -->
         <div class="grid-stats reveal">
             <div class="stat-card">
                 <span class="number" data-target="34.5">0</span>
@@ -174,7 +369,7 @@
             </div>
             <div class="stat-card">
                 <span class="number" data-target="1.9">0</span>
-                <span class="label">Milhões Msgs no Chat</span>
+                <span class="label">Milhões Msgs Chat</span>
             </div>
             <div class="stat-card">
                 <span class="number" data-target="371">0</span>
@@ -182,126 +377,443 @@
             </div>
         </div>
 
-        <!-- GRÁFICOS LINHA 1 -->
-        <div class="chart-row reveal">
-            <div class="chart-box">
-                <div class="chart-title">Evolução de Views (Pico Reta Final)</div>
-                <div style="height: 250px;"><canvas id="viewsChart"></canvas></div>
-            </div>
-            <div class="chart-box">
-                <div class="chart-title">Engajamento Chat ao Vivo</div>
-                <div style="height: 250px;"><canvas id="chatChart"></canvas></div>
-            </div>
-        </div>
+            
+            <section class="mb-6" style="display: flex; flex-direction: row; gap: 2rem; width: 100%;">
+                <div style="flex: 0 0 30%; background-color: #6b21a8; color: white; padding: 2rem; border-radius: 0.5rem; height: auto;">
+                    <h3 class="font-black text-xl mb-6 border-b border-white/30 pb-2 uppercase italic">Recap da Campanha</h3>
+                    <ul class="space-y-6 text-sm">
+                        <li>
+                            <strong class="block text-white/70 text-xs uppercase mb-1">Período</strong>
+                            <span class="font-bold text-lg">17/10/2025 - 14/11/2025</span>
+                        </li>
+                        <li>
+                            <strong class="block text-white/70 text-xs uppercase mb-1">Redes Sociais</strong>
+                            <div class="flex gap-3 text-xl mt-1">
+                                <i class="fa-brands fa-instagram"></i>
+                                <i class="fa-brands fa-tiktok"></i>
+                                <i class="fa-brands fa-facebook"></i>
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                        </li>
+                        <li>
+                            <strong class="block text-white/70 text-xs uppercase mb-1">Hashtags</strong>
+                            <span class="font-mono bg-white/10 px-2 py-1 rounded text-xs">#CentauroNaKingsLeague</span>
+                        </li>
+                        <li>
+                            <strong class="block text-white/70 text-xs uppercase mb-1">Creators</strong>
+                            <span class="font-bold">@desimpedidos @desimpedidosDEC</span>
+                        </li>
+                    </ul>
+                </div>
 
-        <!-- GRÁFICOS LINHA 2 (NOVOS) -->
-        <div class="chart-row reveal">
+                <div style="flex: 1; background-color: #111; padding: 2rem; border-radius: 0.5rem; display: flex; flex-direction: column; justify-content: center; border-left: 4px solid #6b21a8;">
+                    <h4 class="font-bold text-black mb-3 text-lg uppercase">O Projeto</h4>
+                    <div class="text-black leading-relaxed text-base">
+                        <p style="margin-bottom: 1rem;">
+                            O projeto consistiu na ativação estratégica da parceria entre <strong>Centauro</strong> e <strong>Desimpedidos</strong>, alavancando a audiência do ecossistema na <strong>Kings League</strong>.
+                        </p>
+                        <p>
+                            O objetivo central foi inserir a marca nas conversas da comunidade de futebol e entretenimento, garantindo presença constante, awareness massivo e conexão genuína através de conteúdos nativos e alta frequência de publicações.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <br><br>
+
+        <div class="analytics-row full-width reveal">
             <div class="chart-box">
-                <div class="chart-title">Como Chegaram (Tráfego)</div>
-                <div style="height: 250px; display: flex; justify-content: center;"><canvas id="trafficChart"></canvas></div>
+                <div class="chart-title">
+                    <span>Evolução de Views</span>
+                    <div class="title-actions">
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)" title="Mostrar/Ocultar Insights">
+                            <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-content"><canvas id="viewsChart"></canvas></div>
             </div>
-            <div class="chart-box">
-                <div class="chart-title">Palavras-Chave (Busca)</div>
-                <div class="club-list" style="margin-top: 20px;">
-                    <div class="club-item"><span>"desimpedidos"</span> <span class="club-val">14.7%</span></div>
-                    <div class="club-item"><span>"remo ao vivo"</span> <span class="club-val">5.6%</span></div>
-                    <div class="club-item"><span>"paysandu ao vivo"</span> <span class="club-val">2.2%</span></div>
+            <div class="insight-box-side">
+                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
+                <div class="editable-text" contenteditable="false">
+                    <ul>
+                        <li>Curva ascendente sólida a partir da R15.</li>
+                        <li>Queda na R10 explicada pelo feriado.</li>
+                        <li>Pico histórico na última rodada (acesso).</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- CLUBES DESTAQUE -->
-        <div class="reveal" style="margin-bottom: 60px;">
-            <h2 style="margin-bottom: 20px; border-left: 5px solid var(--electric-purple); padding-left: 15px;">Visibilidade dos Clubes</h2>
-            <div class="clubs-grid">
-                <div class="club-list">
-                    <h3><i class="fas fa-arrow-up" style="color: var(--neon-green)"></i> Mais Transmitidos</h3>
-                    <div class="club-item"><span>REMO</span> <span class="club-val">14 Jogos</span></div>
-                    <div class="club-item"><span>GOIÁS</span> <span class="club-val">14 Jogos</span></div>
-                    <div class="club-item"><span>ATHLETICO-PR</span> <span class="club-val">11 Jogos</span></div>
-                    <div class="club-item"><span>AVAÍ</span> <span class="club-val">11 Jogos</span></div>
+        <div class="analytics-row full-width reveal">
+            <div class="chart-box">
+                <div class="chart-title">
+                    <span>Soma de Views (Blocos)</span>
+                    <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
                 </div>
-                <div class="club-list">
-                    <h3><i class="fas fa-arrow-down" style="color: #ff3333"></i> Menos Transmitidos</h3>
-                    <div class="club-item"><span>VOLTA REDONDA</span> <span class="club-val" style="color: #ff3333">1 Jogo</span></div>
-                    <div class="club-item"><span>AMAZONAS</span> <span class="club-val" style="color: #ff3333">2 Jogos</span></div>
-                    <div class="club-item"><span>ATHLETIC</span> <span class="club-val" style="color: #ff3333">2 Jogos</span></div>
+                <div class="chart-content"><canvas id="rodadaChart"></canvas></div>
+            </div>
+            <div class="insight-box-side">
+                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
+                <div class="editable-text" contenteditable="false">
+                    <p>O bloco R26-30 concentrou os clássicos estaduais, gerando o maior volume acumulado.</p>
                 </div>
             </div>
         </div>
 
-        <!-- INSIGHTS ESTRATÉGICOS (O PEDIDO PRINCIPAL) -->
+        <div class="analytics-row full-width reveal">
+            <div class="chart-box">
+                <div class="chart-title">
+                    <span>Regiões (Top 5)</span>
+                    <div class="title-actions">
+                        <div class="view-switch">
+                            <button class="switch-btn active" onclick="toggleChart(this, 'region-chart', 'region-map')">Lista</button>
+                            <button class="switch-btn" onclick="toggleChart(this, 'region-map', 'region-chart')">Mapa</button>
+                        </div>
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                    </div>
+                </div>
+                <div id="region-chart" class="chart-content"><canvas id="regionsChart"></canvas></div>
+                <div id="region-map" class="map-placeholder">
+                    <i class="fas fa-map-marked-alt" style="font-size:3rem; margin-bottom:10px; color:var(--neon-green)"></i>
+                    <p>Mapa de Calor<br><small style="color:#666">Sudeste: 62% | Nordeste: 18%</small></p>
+                </div>
+            </div>
+            <div class="insight-box-side">
+                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
+                <div class="editable-text" contenteditable="true">
+                    <p>Expansão no Nordeste (+3% vs ano anterior) impulsionada por Ceará e Sport.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="analytics-row full-width reveal">
+            <div class="chart-box">
+                <div class="chart-title">
+                    <span>Audiência Global</span>
+                    <div class="title-actions">
+                        <div class="view-switch">
+                            <button class="switch-btn active" onclick="toggleChart(this, 'country-chart', 'country-map')">Lista</button>
+                            <button class="switch-btn" onclick="toggleChart(this, 'country-map', 'country-chart')">Mapa</button>
+                        </div>
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                    </div>
+                </div>
+                <div id="country-chart" class="chart-content"><canvas id="countryChart"></canvas></div>
+                <div id="country-map" class="map-placeholder">
+                    <i class="fas fa-globe-americas" style="font-size:3rem; margin-bottom:10px; color:var(--neon-green)"></i>
+                    <p>Mapa Mundi<br><small style="color:#666">EUA, Portugal e UK lideram</small></p>
+                </div>
+            </div>
+            <div class="insight-box-side">
+                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
+                <div class="editable-text" contenteditable="true">
+                    <p>Comunidade BR no exterior segue forte. Japão entra no Top 5 devido aos jogos matinais.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-bottom: 50px; margin-top: 50px;">
+            
+            <div class="chart-title" style="margin-bottom: 20px;">
+                <span>Entregas por Plataforma</span>
+            </div>
+
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 25px;" class="lg:flex-row">
+                
+                <div class="chart-box" style="flex: 0 0 40%; min-height: 400px; padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="padding: 20px; background: #1a1a1a; border-bottom: 1px solid #333;">
+                        <h4 style="color: var(--neon-green); font-size: 0.9rem; text-transform: uppercase;">Detalhamento</h4>
+                    </div>
+                    
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead style="background: #111; color: #888; text-transform: uppercase; font-size: 0.75rem;">
+                                <tr>
+                                    <th style="padding: 15px; text-align: left;">Rede</th>
+                                    <th style="padding: 15px; text-align: right;">Views</th>
+                                    <th style="padding: 15px; text-align: right;">Posts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 15px; color: #fff; font-weight: bold;">
+                                        <i class="fa-brands fa-instagram" style="color: #E1306C; margin-right: 8px; width: 20px;"></i> Insta
+                                    </td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">1.08 M</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">6</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 15px; color: #fff; font-weight: bold;">
+                                        <i class="fa-brands fa-tiktok" style="color: #fff; margin-right: 8px; width: 20px;"></i> TikTok
+                                    </td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">9.4 K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">9</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #222;">
+                                    <td style="padding: 15px; color: #fff; font-weight: bold;">
+                                        <i class="fa-brands fa-facebook" style="color: #1877F2; margin-right: 8px; width: 20px;"></i> Face
+                                    </td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">51 K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">7</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #222; border: none;">
+                                    <td style="padding: 15px; color: #fff; font-weight: bold;">
+                                        <i class="fa-brands fa-youtube" style="color: #FF0000; margin-right: 8px; width: 20px;"></i> YouTube
+                                    </td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">512 K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">44</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-box" style="flex: 1; min-height: 400px; display: flex; flex-direction: column;">
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="updateChart('views')" id="btn-views" class="switch-btn" 
+                            style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
+                            VIEWS
+                        </button>
+                        <button onclick="updateChart('alcance')" id="btn-alcance" class="switch-btn" 
+                            style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
+                            ALCANCE
+                        </button>
+                        <button onclick="updateChart('engajamento')" id="btn-engajamento" class="switch-btn" 
+                            style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
+                            ENGAJAMENTO
+                        </button>
+                        <button onclick="updateChart('posts')" id="btn-posts" class="switch-btn" 
+                            style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
+                            POSTS
+                        </button>
+                    </div>
+
+                    <div style="flex-grow: 1; position: relative; width: 100%; min-height: 300px;">
+                        <canvas id="chartPlataforma"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="analytics-row full-width reveal">
+            <div class="chart-box">
+                <div class="chart-title">
+                    <span>FAST TV (Por Canal)</span>
+                    <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                </div>
+                <div class="chart-content"><canvas id="fastTvChart"></canvas></div>
+            </div>
+            <div class="insight-box-side">
+                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
+                <div class="editable-text" contenteditable="true">
+                    <p>Samsung TV+ lidera com folga. Oportunidade de crescer em LG Channels.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal ranking-section">
+            <h2 style="margin-bottom: 25px; border-left: 5px solid var(--electric-purple); padding-left: 15px;">Rankings de Conteúdo</h2>
+            
+            <div class="ranking-grid">
+                <div class="ranking-box">
+                    <div class="chart-title" style="border:none; padding:0; margin-bottom: 10px;">Top 10 Posts</div>
+                    <div class="ranking-tabs">
+                        <button class="tab-btn active" onclick="filterPosts('all', this)">Geral</button>
+                        <button class="tab-btn" onclick="filterPosts('insta', this)">Insta</button>
+                        <button class="tab-btn" onclick="filterPosts('tiktok', this)">TikTok</button>
+                        <button class="tab-btn" onclick="filterPosts('twitter', this)">X</button>
+                    </div>
+                    <ul class="ranking-list" id="postsList"></ul>
+                </div>
+
+                <div class="ranking-box">
+                    <div class="chart-title" style="border-left-color: #ff9900;">Top 10 Melhores Momentos</div>
+                    <ul class="ranking-list">
+                        <li class="ranking-item"><span class="rank-num">1</span> <span class="rank-content">Golaço Bicicleta (Goiás)</span> <span class="rank-val">1.2M</span></li>
+                        <li class="ranking-item"><span class="rank-num">2</span> <span class="rank-content">Frango do Goleiro (R04)</span> <span class="rank-val">980K</span></li>
+                        <li class="ranking-item"><span class="rank-num">3</span> <span class="rank-content">Defesa Penalti (Remo)</span> <span class="rank-val">850K</span></li>
+                        <li class="ranking-item"><span class="rank-num">4</span> <span class="rank-content">Briga Generalizada R20</span> <span class="rank-val">720K</span></li>
+                        <li class="ranking-item"><span class="rank-num">5</span> <span class="rank-content">Drible da Vaca (Ceará)</span> <span class="rank-val">600K</span></li>
+                        <li class="ranking-item"><span class="rank-num">6</span> <span class="rank-content">Gol Olímpico</span> <span class="rank-val">550K</span></li>
+                        <li class="ranking-item"><span class="rank-num">7</span> <span class="rank-content">Invasão Cachorro</span> <span class="rank-val">490K</span></li>
+                    </ul>
+                </div>
+
+                <div class="ranking-box">
+                    <div class="chart-title" style="border-left-color: #ff3333;">Top 10 Lives (Pré-VOD)</div>
+                    <ul class="ranking-list">
+                        <li class="ranking-item"><span class="rank-num">1</span> <span class="rank-content">Paysandu x Remo</span> <span class="rank-val">220K</span></li>
+                        <li class="ranking-item"><span class="rank-num">2</span> <span class="rank-content">Coritiba x Santos</span> <span class="rank-val">180K</span></li>
+                        <li class="ranking-item"><span class="rank-num">3</span> <span class="rank-content">Goiás x Vila Nova</span> <span class="rank-val">150K</span></li>
+                        <li class="ranking-item"><span class="rank-num">4</span> <span class="rank-content">Sport x Ceará</span> <span class="rank-val">135K</span></li>
+                        <li class="ranking-item"><span class="rank-num">5</span> <span class="rank-content">Santos x Ponte</span> <span class="rank-val">120K</span></li>
+                        <li class="ranking-item"><span class="rank-num">6</span> <span class="rank-content">Avaí x Figueirense</span> <span class="rank-val">110K</span></li>
+                        <li class="ranking-item"><span class="rank-num">7</span> <span class="rank-content">Rodada Final</span> <span class="rank-val">105K</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+       <div class="reveal" style="width: 100%; box-sizing: border-box; display: block;">    
+            <h2 style="margin-bottom: 20px;">Visibilidade dos Clubes</h2>            
+            <h3 style="margin-bottom: 20px;">
+                <i class="fas fa-arrow-up" style="color: var(--neon-green)"></i> Mais Transmitidos
+            </h3>
+            <div style="display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;">                
+                <div style="width: 48%;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>1. REMO</span> <span style="color:var(--neon-green)">14 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>2. GOIÁS</span> <span style="color:var(--neon-green)">14 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>3. ATHLETICO-PR</span> <span style="color:var(--neon-green)">11 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>4. AVAÍ</span> <span style="color:var(--neon-green)">11 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>5. CEARÁ</span> <span style="color:var(--neon-green)">10 Jogos</span>
+                    </div>
+                </div>
+                <div style="width: 48%;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>6. SPORT</span> <span style="color:var(--neon-green)">9 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>7. CRB</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>8. VILA NOVA</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
+                        <span>9. PONTE PRETA</span> <span style="color:var(--neon-green)">7 Jogos</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border: none; padding: 10px 0; width: 100%;">
+                        <span>10. VITÓRIA</span> <span style="color:var(--neon-green)">6 Jogos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="insights-section reveal">
-            <div class="section-header">
+            <div style="text-align: center;">
                 <p style="color: var(--neon-green); letter-spacing: 2px;">ANÁLISE TÁTICA</p>
-                <h2>Insights & Aprendizados</h2>
+                <h2 style="text-transform: uppercase;">Insights & Aprendizados</h2>
             </div>
-
             <div class="tactical-grid">
-                <!-- Insight 1: Golaço -->
                 <div class="insight-card success">
-                    <i class="fas fa-star insight-icon"></i>
+                    <i class="fas fa-star" style="color: var(--neon-green); font-size: 2rem; margin-bottom:15px;"></i>
                     <h3>Golaços (Acertos)</h3>
-                    <p>Fidelização forte das torcidas, especialmente <strong>Coritiba e Remo</strong>. Engajamento altíssimo no chat.</p>
-                    <p>Variedade de formatos (Memes + Lances) ajudou a furar a bolha da transmissão e viver nas redes sociais.</p>
+                    <p style="color:#bbb; font-size:0.9rem; line-height:1.6;">Fidelização forte das torcidas, especialmente <strong>Coritiba e Remo</strong>. Engajamento altíssimo no chat.</p>
                     <span class="tag">Estratégia</span> <span class="tag">Conteúdo</span>
                 </div>
-
-                <!-- Insight 2: Aprendizados -->
                 <div class="insight-card warning">
-                    <i class="fas fa-lightbulb insight-icon"></i>
+                    <i class="fas fa-lightbulb" style="color: #ff9900; font-size: 2rem; margin-bottom:15px;"></i>
                     <h3>Aprendizados</h3>
-                    <p>Houve um aumento claro de audiência a partir da <strong>15ª Rodada</strong>.</p>
-                    <p>No início, a escolha de times menos expressivos ou horários ruins segurou o crescimento exponencial.</p>
-                    <span class="tag">Programação</span> <span class="tag">Dados</span>
+                    <p style="color:#bbb; font-size:0.9rem; line-height:1.6;">Houve um aumento claro de audiência a partir da <strong>15ª Rodada</strong>. Horários de sábado à noite performaram abaixo da média.</p>
+                    <span class="tag">Programação</span>
                 </div>
-
-                <!-- Insight 3: Oportunidades -->
                 <div class="insight-card danger">
-                    <i class="fas fa-chess-knight insight-icon"></i>
-                    <h3>Oportunidades (Perdidas/Ganhas)</h3>
-                    <p><i class="fas fa-check" style="color: var(--neon-green)"></i> <strong>Apito Solidário:</strong> 19 Clubes engajados na doação de sangue.</p>
-                    <p><i class="fas fa-times" style="color: #ff3333"></i> <strong>Flashscore:</strong> Interesse demonstrado mas não convertido em banners.</p>
-                    <span class="tag">Comercial</span> <span class="tag">Social</span>
+                    <i class="fas fa-chess-knight" style="color: #ff3333; font-size: 2rem; margin-bottom:15px;"></i>
+                    <h3>Oportunidades</h3>
+                    <p style="color:#bbb; font-size:0.9rem; line-height:1.6;"><strong>Flashscore:</strong> Interesse demonstrado. Converter banners em inserções ao vivo e L-Shape na próxima temporada.</p>
+                    <span class="tag">Comercial</span>
                 </div>
             </div>
         </div>
 
-        <!-- APITO SOLIDÁRIO -->
         <div class="apito-box reveal">
-            <div>
-                <h3 style="font-size: 2rem; margin-bottom: 10px; color: var(--neon-green);">Apito Solidário</h3>
-                <p>Campanha Social de Doação de Sangue com 19 Clubes Engajados.</p>
+            <div style="position: relative; z-index: 2;">
+                <h3 style="font-size: 2rem; margin-bottom: 10px; color: #ffcccc; display:flex; align-items:center; gap:10px;">
+                    <i class="fas fa-heartbeat"></i> Apito Solidário
+                </h3>
+                <p style="color: #ffcccc;">Campanha de Doação de Sangue - 19 Clubes Engajados.</p>
             </div>
-            <div class="apito-stats" style="text-align: right;">
-                <div style="font-size: 2.5rem; font-weight: 800;">+696K</div>
-                <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Views Totais</div>
+            <div style="text-align: right; color: #fff; position: relative; z-index: 2;">
+                <div style="font-size: 4rem; font-weight: 800; line-height: 1;">68</div>
+                <div style="font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: #ff9999; font-weight:bold;">Vidas Salvas (Est.)</div>
             </div>
         </div>
 
-        <footer style="text-align: center; margin-top: 80px; color: #555; font-size: 0.8rem;">
+        <div class="reveal partners-section">
+            <h2 style="margin-bottom: 30px; border-left: 5px solid var(--electric-purple); padding-left: 15px;">Parceiros do Projeto</h2>
+            
+            <div class="partners-grid">
+                <div class="partner-card" onclick="openPartnerModal('mrv')">
+                    <img style="width: 400px; height: 500px;" src="mrv.png" alt="MRV">
+                </div>
+                <div class="partner-card" onclick="openPartnerModal('alfa')">
+                    <img src="https://cdn.betspace.tech/alfabet/cms/media/alfa_77d75ae0ec.svg" alt="AlfaBet">
+                </div>
+                <div class="partner-card" onclick="openPartnerModal('reals')">
+                    <img src="https://media.pl-01.cdn-platform.com/cms/sites/image-1766768602304108.webp" alt="Reals Bet">
+                </div>
+                <div class="partner-card" onclick="openPartnerModal('kto')">
+                    <img src="kto.png" alt="KTO">
+                </div>
+            </div>
+        </div>
+
+        <div id="partnerModal" class="modal-overlay" onclick="closePartnerModal(event)">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closePartnerModal(null)">&times;</span>
+                <h3 id="modalTitle" style="color: var(--neon-green); margin-bottom: 20px; text-transform: uppercase;">Nome do Parceiro</h3>
+                <ul id="modalList" style="list-style: none; color: #ddd; line-height: 1.8;">
+                    </ul>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 80px; color: #444; font-size: 0.8rem;">
             NWB + SPORTS © 2025 | Relatório Confidencial
         </footer>
 
     </div>
 
     <script>
-        // --- 1. EFEITO MOUSE (BOLA) ---
+        // --- 1. EFEITO BOLA DE FUTEBOL NO MOUSE ---
         let lastTime = 0;
         document.addEventListener('mousemove', (e) => {
-            if (Date.now() - lastTime < 50) return;
-            lastTime = Date.now();
-            const b = document.createElement('div');
-            b.classList.add('soccer-particle'); b.innerText = '⚽';
-            b.style.left = e.clientX+'px'; b.style.top = e.clientY+'px';
-            b.style.transform = `scale(${Math.random()*0.5+0.5})`;
-            document.body.appendChild(b);
-            setTimeout(() => b.remove(), 1000);
+            const now = Date.now();
+            if (now - lastTime < 50) return; // Limita a quantidade de bolas (performance)
+            lastTime = now;
+
+            const ball = document.createElement('div');
+            ball.classList.add('soccer-particle');
+            ball.innerText = '⚽'; // Emoji de bola
+            ball.style.left = e.clientX + 'px';
+            ball.style.top = e.clientY + 'px';
+            
+            // Pequena variação aleatória de tamanho
+            const size = Math.random() * 0.5 + 0.8; 
+            ball.style.transform = `scale(${size})`;
+
+            document.body.appendChild(ball);
+
+            // Remove o elemento após a animação (1s)
+            setTimeout(() => {
+                ball.remove();
+            }, 1000);
         });
 
-        // --- 2. CONFIGURAÇÃO DOS GRÁFICOS ---
+        // --- FUNÇÃO TOGGLE INSIGHT (AJUSTADA PARA PADRÃO FECHADO) ---
+        function toggleInsight(btn) {
+            // Encontra a linha pai
+            const row = btn.closest('.analytics-row');
+            // Alterna a classe que FECHA (agora o padrão é fechado, então removemos full-width pra abrir)
+            row.classList.toggle('full-width');
+            // Alterna estilo do botão (aceso/apagado)
+            btn.classList.toggle('active');
+        }
+
+        // --- CONFIGURAÇÃO CHART.JS ---
         Chart.defaults.color = '#888';
         Chart.defaults.borderColor = '#333';
+        Chart.defaults.font.family = "'Montserrat', sans-serif";
 
         // A) Views (Linha)
         new Chart(document.getElementById('viewsChart'), {
@@ -309,51 +821,190 @@
             data: {
                 labels: ['R1', 'R5', 'R10', 'R15', 'R20', 'R25', 'R30', 'R35', 'R38'],
                 datasets: [{
-                    label: 'Audiência',
-                    data: [0.5, 0.6, 0.5, 0.9, 1.2, 1.1, 1.3, 1.4, 1.5], // Em Milhões (aprox)
-                    borderColor: '#ccff00', backgroundColor: 'rgba(138, 43, 226, 0.15)',
-                    borderWidth: 3, fill: true, tension: 0.4, pointRadius: 4
+                    label: 'Audiência', data: [0.5, 0.6, 0.5, 0.9, 1.2, 1.1, 1.3, 1.4, 1.5],
+                    borderColor: '#ccff00', backgroundColor: 'rgba(138, 43, 226, 0.15)', borderWidth: 3, fill: true, tension: 0.4
                 }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
+            }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
-        // B) Chat (Barra) - Slide 4
-        new Chart(document.getElementById('chatChart'), {
+        // B) Soma Rodada (Barras)
+        new Chart(document.getElementById('rodadaChart'), {
             type: 'bar',
             data: {
-                labels: ['R1', 'R10', 'R20', 'R30', 'R38'],
-                datasets: [{
-                    label: 'Mensagens (milhares)',
-                    data: [25, 40, 65, 80, 100],
-                    backgroundColor: '#8a2be2', borderRadius: 5
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
+                labels: ['R1-5', 'R6-10', 'R11-15', 'R16-20', 'R21-25', 'R26-30', 'R31-35', 'R36-38'],
+                datasets: [{ label: 'Views', data: [2.5, 3.1, 2.8, 4.5, 5.2, 6.0, 7.1, 4.2], backgroundColor: '#8a2be2', borderRadius: 5 }]
+            }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
-        // C) Tráfego (Donut) - Slide 5
-        new Chart(document.getElementById('trafficChart'), {
-            type: 'doughnut',
+        // C) Regiões (Barras Horizontais)
+        new Chart(document.getElementById('regionsChart'), {
+            type: 'bar',
             data: {
-                labels: ['Browse Features', 'YouTube Search', 'Sugestões', 'Outros'],
-                datasets: [{
-                    data: [61.6, 16.5, 11.2, 10.7],
-                    backgroundColor: ['#ccff00', '#8a2be2', '#ffffff', '#333333'],
-                    borderWidth: 0
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {position: 'right', labels: {font: {size: 10}}} } }
+                labels: ['Sudeste', 'Nordeste', 'Sul', 'Centro-Oeste', 'Norte'],
+                datasets: [{ label: 'Views', data: [62, 18, 12, 5, 3], backgroundColor: ['#ccff00', '#aaee00', '#88cc00', '#66aa00', '#448800'], borderRadius: 4 }]
+            }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
-        // --- 3. ANIMAÇÕES DE SCROLL E CONTADORES ---
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    if (entry.target.classList.contains('grid-stats')) startCounters();
+        // D) Países (Barras Horizontais)
+        new Chart(document.getElementById('countryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['🇧🇷 Brasil', '🇺🇸 EUA', '🇵🇹 Portugal', '🇬🇧 UK', '🇯🇵 Japão'],
+                datasets: [{ label: 'Views', data: [92, 3.5, 2.0, 1.5, 1.0], backgroundColor: '#333', borderColor: '#ccff00', borderWidth: 1, borderRadius: 4 }]
+            }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
+        });
+
+        // E) Social Chart
+       // Dados: Uma cor única por métrica
+        const platformData = {
+            views: { 
+                data: [1085820, 9403, 51006, 512288], 
+                color: '#ccff00', // Verde
+                label: 'Visualizações'
+            },
+            alcance: { 
+                data: [475372, 0, 51098, 0], 
+                color: '#8a2be2', // Roxo
+                label: 'Alcance'
+            },
+            engajamento: { 
+                data: [9551, 628, 238, 16541], 
+                color: '#ff9900', // Laranja
+                label: 'Engajamento'
+            },
+            posts: { 
+                data: [6, 9, 7, 44], 
+                color: '#ff3333', // Vermelho
+                label: 'Posts Publicados'
+            }
+        };
+
+        const ctxPlataforma = document.getElementById('chartPlataforma');
+        let myPlatformChart;
+
+        // Inicialização
+        if (ctxPlataforma) {
+            myPlatformChart = new Chart(ctxPlataforma, {
+                type: 'bar',
+                data: {
+                    labels: ['Instagram', 'TikTok', 'Facebook', 'YouTube'],
+                    datasets: [{
+                        label: platformData.views.label,
+                        data: platformData.views.data,
+                        backgroundColor: platformData.views.color, // Cor única inicial
+                        borderWidth: 0,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }, // Sem legenda
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#333' },
+                            ticks: { color: '#666' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#fff', font: { weight: 'bold' } }
+                        }
+                    }
                 }
             });
+            
+            // Ativa o botão inicial visualmente
+            updateButtonState('views');
+        }
+
+        // Função de troca (Global)
+        window.updateChart = function(metric) {
+            if (!myPlatformChart) return;
+
+            const selected = platformData[metric];
+
+            // 1. Atualiza dados e APLICA A COR ÚNICA para todas as barras
+            myPlatformChart.data.datasets[0].data = selected.data;
+            myPlatformChart.data.datasets[0].backgroundColor = selected.color; 
+            myPlatformChart.data.datasets[0].label = selected.label;
+            myPlatformChart.update();
+
+            // 2. Atualiza classes dos botões
+            updateButtonState(metric);
+        };
+
+        function updateButtonState(activeId) {
+            // 1. Reseta todos para o estilo padrão da classe .switch-btn
+            document.querySelectorAll('.switch-btn').forEach(btn => {
+                // Se o botão for do grupo de métricas (tem id btn-algo)
+                if (btn.id.startsWith('btn-')) {
+                    btn.classList.remove('active'); // Remove a classe active do CSS original
+                    btn.style.background = '#222';
+                    btn.style.color = '#888';
+                    btn.style.borderColor = '#444';
+                }
+            });
+
+            // 2. Ativa o botão selecionado usando a classe do seu CSS original
+            const activeBtn = document.getElementById('btn-' + activeId);
+            if(activeBtn) {
+                activeBtn.classList.add('active'); // Usa sua classe .active que já deixa roxo
+                // Forçamos via inline caso o CSS tenha especificidade menor
+                activeBtn.style.background = 'var(--electric-purple)';
+                activeBtn.style.color = '#fff';
+                activeBtn.style.borderColor = 'var(--electric-purple)';
+            }
+        }
+
+        // F) FAST TV
+        new Chart(document.getElementById('fastTvChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Samsung TV+', 'Pluto TV', 'LG Channels', 'Outros'],
+                datasets: [{ label: 'Views', data: [450000, 320000, 150000, 50000], backgroundColor: ['#007bff', '#ffcc00', '#a50034', '#555'], borderRadius: 5 }]
+            }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
+        });
+
+        // --- FUNÇÕES DE INTERAÇÃO ---
+        function toggleChart(btn, showId, hideId) {
+            document.getElementById(showId).style.display = 'block';
+            if(showId.includes('map')) document.getElementById(showId).style.display = 'flex';
+            document.getElementById(hideId).style.display = 'none';
+            btn.parentElement.querySelectorAll('.switch-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Filtro Posts
+        const postsData = [
+            { net: 'insta', title: 'Meme do Goleiro', val: '550K Likes' },
+            { net: 'tiktok', title: 'Edit do Golaço', val: '2.1M Views' },
+            { net: 'twitter', title: 'Thread Curiosidades', val: '150K RTs' },
+            { net: 'insta', title: 'Bastidores Vestiário', val: '300K Likes' },
+            { net: 'tiktok', title: 'Desafio do Travessão', val: '1.8M Views' },
+            { net: 'twitter', title: 'Polêmica da Arbitragem', val: '90K RTs' },
+            { net: 'insta', title: 'Foto da Torcida', val: '280K Likes' }
+        ];
+
+        function filterPosts(type, btn) {
+            const list = document.getElementById('postsList'); list.innerHTML = '';
+            if(btn) { document.querySelectorAll('.ranking-tabs .tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+            
+            let filtered = (type === 'all') ? postsData : postsData.filter(p => p.net === type);
+            let icons = { 'insta': 'fab fa-instagram', 'tiktok': 'fab fa-tiktok', 'twitter': 'fab fa-twitter' };
+            let colors = { 'insta': '#E1306C', 'tiktok': '#fff', 'twitter': '#1DA1F2' };
+
+            filtered.forEach((post, i) => {
+                const li = document.createElement('li'); li.className = 'ranking-item';
+                li.innerHTML = `<div style="display:flex; align-items:center;"><span class="rank-num">${i+1}</span><i class="${icons[post.net]}" style="color:${colors[post.net]}; margin-right:10px; width:20px;"></i><span class="rank-content">${post.title}</span></div><span class="rank-val">${post.val}</span>`;
+                list.appendChild(li);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => filterPosts('all', document.querySelector('.ranking-tabs .tab-btn')));
+
+        // Reveal & Counters
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); if(entry.target.classList.contains('grid-stats')) startCounters(); } });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
@@ -366,14 +1017,92 @@
                     const curr = +c.innerText;
                     if(curr < t) { c.innerText = Math.ceil(curr+inc); setTimeout(up, 30); }
                     else {
-                        if(t===34.5) c.innerText="34.55M"; 
-                        else if(t===1.9) c.innerText="1.91M";
-                        else if(t===371) c.innerText="R$ 371K";
-                        else c.innerText=t+"K";
+                        if(t===34.5) c.innerText="34.55M"; else if(t===1.9) c.innerText="1.91M"; else if(t===371) c.innerText="R$ 371K"; else c.innerText=t+"K";
                     }
                 }; up();
             });
         }
+
+        // --- DADOS DOS PARCEIROS ---
+        const partnersData = {
+            'mrv': {
+                name: 'MRV',
+                deliveries: [
+                    'Naming Rights do Campeonato',
+                    'Inserções de TV (L-Shape) em todos os jogos',
+                    'Ativação "Craque da Rodada"',
+                    '30 Posts Collab no Instagram'
+                ]
+            },
+            'alfa': {
+                name: 'Alfa Bet',
+                deliveries: [
+                    'Patrocínio do "Apito Solidário"',
+                    'Bares temáticos nos estádios (Nordeste)',
+                    'Inserções no Intervalo (Comercial 30")',
+                    'Brindes exclusivos para torcedores'
+                ]
+            },
+            'reals': {
+                name: 'Reals Bet',
+                deliveries: [
+                    'Transmissão simultânea de 38 jogos',
+                    'Destaque na Home do Prime Video',
+                    'Série Documental "Bastidores da B"',
+                    'Banner rotativo no App'
+                ]
+            },
+            'kto': {
+                name: 'KTO',
+                deliveries: [
+                    'Carro Oficial da Arbitragem',
+                    'Exposição de Carro no Gramado (Finais)',
+                    'Logo no uniforme dos Gandulas',
+                    'L-Shape animado em Gols'
+                ]
+            }
+        };
+
+        // --- FUNÇÕES DO MODAL ---
+        function openPartnerModal(partnerKey) {
+            const data = partnersData[partnerKey];
+            if(!data) return;
+
+            const modal = document.getElementById('partnerModal');
+            const title = document.getElementById('modalTitle');
+            const list = document.getElementById('modalList');
+
+            // Preenche os dados
+            title.innerText = data.name;
+            list.innerHTML = ''; // Limpa lista anterior
+            
+            data.deliveries.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'modal-item';
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${item}`;
+                list.appendChild(li);
+            });
+
+            // Mostra o modal (Flex para centralizar)
+            modal.style.display = 'flex';
+        }
+
+        function closePartnerModal(event) {
+            // Fecha se clicar no Overlay (fundo) ou no Botão X
+            const modal = document.getElementById('partnerModal');
+            if (event === null || event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Fecha com tecla ESC também
+        document.addEventListener('keydown', function(e) {
+            if(e.key === "Escape") {
+                document.getElementById('partnerModal').style.display = 'none';
+            }
+        });
+
+
     </script>
 </body>
 </html>
