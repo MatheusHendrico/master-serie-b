@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Série B - Dashboard Completo 2025</title>
+    <title>Master Série B - Relatório Completo 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -133,7 +133,7 @@
         
         .insight-toggle-btn {
             background: transparent; border: 1px solid #333; color: #555;
-            width: 32px; height: 32px; border-radius: 50%;
+            width: 82px; height: 52px; border-radius: 20%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.3s; font-size: 1rem;
         }
@@ -146,7 +146,7 @@
             box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
         }
 
-        .insight-toggle-btn:hover { transform: scale(1.1); color: #888; }
+        .insight-toggle-btn:hover { transform: scale(1.1); color: var(--neon-green); }
         .insight-toggle-btn.active:hover { color: var(--neon-green); }
 
         /* --- TEXTO EDITÁVEL --- */
@@ -349,15 +349,20 @@
 <body>
 
     <header>
+        <img src="empresas-n.png" 
+         alt="Logo NSports + NWB" 
+         class="absolute top-0 left-0 h-12 w-auto md:h-16"
+         style="filter: invert(10%) sepia(94%) saturate(5639%) hue-rotate(349deg) brightness(90%) contrast(106%); width: 150px; height: auto;">
+         <br>
+
         <div class="reveal">
             <p style="color: #888; letter-spacing: 3px; margin-bottom: 10px;">RELATÓRIO FINAL 2025</p>
             <h1>Master Série B</h1>
-            <p style="font-size: 1.2rem;">Análise, Métricas e Insights Táticos</p>
+            <p style="font-size: 1.2rem;">Análises, Métricas e Insights Táticos</p>
         </div>
     </header>
 
     <div class="container">
-        
         <div class="grid-stats reveal">
             <div class="stat-card">
                 <span class="number" data-target="34.5">0</span>
@@ -368,12 +373,12 @@
                 <span class="label">Mil Novos Inscritos</span>
             </div>
             <div class="stat-card">
-                <span class="number" data-target="1.9">0</span>
-                <span class="label">Milhões Msgs Chat</span>
+                <span class="number" data-target="19.3">0</span>
+                <span class="label">Milhões Espec. Únicos</span>
             </div>
             <div class="stat-card">
-                <span class="number" data-target="371">0</span>
-                <span class="label">Mil Reais Receita</span>
+                <span class="number" data-target="40.3">0</span>
+                <span class="label">Mil Média Espec. Simultâneos</span>
             </div>
         </div>
 
@@ -424,10 +429,9 @@
         <div class="analytics-row full-width reveal">
             <div class="chart-box">
                 <div class="chart-title">
-                    <span>Evolução de Views</span>
+                    <span>Evolução de Views (por Rodada)</span>
                     <div class="title-actions">
-                        <button class="insight-toggle-btn" onclick="toggleInsight(this)" title="Mostrar/Ocultar Insights">
-                            <i class="fas fa-lightbulb"></i>
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)" title="Mostrar/Ocultar Insights">Insights <i class="fas fa-lightbulb"></i>
                         </button>
                     </div>
                 </div>
@@ -448,8 +452,8 @@
         <div class="analytics-row full-width reveal">
             <div class="chart-box">
                 <div class="chart-title">
-                    <span>Soma de Views (Blocos)</span>
-                    <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                    <span>Evolução de Views (por Semana)</span>
+                    <button class="insight-toggle-btn" onclick="toggleInsight(this)">Insights <i class="fas fa-lightbulb"></i></button>
                 </div>
                 <div class="chart-content"><canvas id="rodadaChart"></canvas></div>
             </div>
@@ -470,7 +474,7 @@
                             <button class="switch-btn active" onclick="toggleChart(this, 'region-chart', 'region-map')">Lista</button>
                             <button class="switch-btn" onclick="toggleChart(this, 'region-map', 'region-chart')">Mapa</button>
                         </div>
-                        <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)">Insights <i class="fas fa-lightbulb"></i></button>
                     </div>
                 </div>
                 <div id="region-chart" class="chart-content"><canvas id="regionsChart"></canvas></div>
@@ -481,7 +485,7 @@
             </div>
             <div class="insight-box-side">
                 <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
-                <div class="editable-text" contenteditable="true">
+                <div class="editable-text" contenteditable="false">
                     <p>Expansão no Nordeste (+3% vs ano anterior) impulsionada por Ceará e Sport.</p>
                 </div>
             </div>
@@ -496,18 +500,18 @@
                             <button class="switch-btn active" onclick="toggleChart(this, 'country-chart', 'country-map')">Lista</button>
                             <button class="switch-btn" onclick="toggleChart(this, 'country-map', 'country-chart')">Mapa</button>
                         </div>
-                        <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                        <button class="insight-toggle-btn" onclick="toggleInsight(this)">Insights <i class="fas fa-lightbulb"></i></button>
                     </div>
                 </div>
                 <div id="country-chart" class="chart-content"><canvas id="countryChart"></canvas></div>
                 <div id="country-map" class="map-placeholder">
                     <i class="fas fa-globe-americas" style="font-size:3rem; margin-bottom:10px; color:var(--neon-green)"></i>
-                    <p>Mapa Mundi<br><small style="color:#666">EUA, Portugal e UK lideram</small></p>
+                    <p>Mapa Mundi<br><small style="color:#666">Brasil, EUA e Portugal lideram</small></p>
                 </div>
             </div>
             <div class="insight-box-side">
                 <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
-                <div class="editable-text" contenteditable="true">
+                <div class="editable-text" contenteditable="false">
                     <p>Comunidade BR no exterior segue forte. Japão entra no Top 5 devido aos jogos matinais.</p>
                 </div>
             </div>
@@ -516,7 +520,7 @@
         <div class="reveal" style="margin-bottom: 50px; margin-top: 50px;">            
             <div class="chart-title" style="margin-bottom: 20px;">
                 <span>Perfil de Consumo</span>
-                <span style="display: block; font-size: 0.75rem; color: #666; font-style: italic; margin-top: 5px;">*Dados da Tubular do perfil do @Desimpedidos</span>
+                <span style="display: block; font-size: 0.75rem; color: #E1306C; font-style: italic; margin-top: 5px;">*Dados da Tubular do perfil do @Desimpedidos</span>
             </div>
             <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 25px;" class="lg:flex-row">                
                 <div class="chart-box" style="flex: 1; min-width: 300px; min-height: 400px; padding: 0; overflow: hidden; display: flex; flex-direction: column; background: #1a1a1a; border: 1px solid #333;">                    
@@ -564,11 +568,11 @@
                         <div style="display: flex; gap: 20px; margin-top: 20px; font-size: 0.85rem;">
                             <div style="display: flex; items-center; gap: 8px; color: #ccc;">
                                 <span style="width: 12px; height: 12px; background: #E1306C; border-radius: 50%; display: inline-block;"></span>
-                                Masculino <b>91%</b>
+                                Masculino <b>83%</b>
                             </div>
                             <div style="display: flex; items-center; gap: 8px; color: #ccc;">
                                 <span style="width: 12px; height: 12px; background: #555; border-radius: 50%; display: inline-block;"></span>
-                                Feminino <b>09%</b>
+                                Feminino <b>16,8%</b>
                             </div>
                         </div>
                     </div>
@@ -596,37 +600,47 @@
                                 <tr>
                                     <th style="padding: 15px; text-align: left;">Rede</th>
                                     <th style="padding: 15px; text-align: right;">Views</th>
+                                    <th style="padding: 15px; text-align: right;">Alcance</th>
+                                    <th style="padding: 15px; text-align: right;">Engajamento</th>                                                                 
                                     <th style="padding: 15px; text-align: right;">Posts</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr style="border-bottom: 1px solid #222;">
                                     <td style="padding: 15px; color: #fff; font-weight: bold;">
-                                        <i class="fa-brands fa-instagram" style="color: #E1306C; margin-right: 8px; width: 20px;"></i> Insta
+                                        <i class="fa-brands fa-instagram" style="color: #E1306C; margin-right: 2x; width: 20px;"></i>Instagram
                                     </td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">1.08 M</td>
-                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">6</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">257M</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">5.77M</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">1.02K</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #222;">
                                     <td style="padding: 15px; color: #fff; font-weight: bold;">
-                                        <i class="fa-brands fa-tiktok" style="color: #fff; margin-right: 8px; width: 20px;"></i> TikTok
+                                        <i class="fa-brands fa-tiktok" style="color: #fff; margin-right: 2px; width: 20px;"></i>TikTok
                                     </td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">9.4 K</td>
-                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">9</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">25.12M</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">633.57K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">393</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #222;">
                                     <td style="padding: 15px; color: #fff; font-weight: bold;">
-                                        <i class="fa-brands fa-facebook" style="color: #1877F2; margin-right: 8px; width: 20px;"></i> Face
+                                        <i class="fa-brands fa-facebook" style="color: #1877F2; margin-right: 2px; width: 20px;"></i>Facebook
                                     </td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">51 K</td>
-                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">7</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">10.61M</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">70.52K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">326</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #222; border: none;">
                                     <td style="padding: 15px; color: #fff; font-weight: bold;">
-                                        <i class="fa-brands fa-youtube" style="color: #FF0000; margin-right: 8px; width: 20px;"></i> YouTube
+                                        <i class="fa-brands fa-youtube" style="color: #FF0000; margin-right: 2px; width: 20px;"></i>YouTube
                                     </td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">512 K</td>
-                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">44</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">36.69M</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
+                                    <td style="padding: 15px; text-align: right; color: #ccc;">856K</td>
+                                    <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">193</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -666,13 +680,13 @@
             <div class="chart-box">
                 <div class="chart-title">
                     <span>FAST TV (Por Canal)</span>
-                    <button class="insight-toggle-btn" onclick="toggleInsight(this)"><i class="fas fa-lightbulb"></i></button>
+                    <button class="insight-toggle-btn" onclick="toggleInsight(this)">Insights <i class="fas fa-lightbulb"></i></button>
                 </div>
                 <div class="chart-content"><canvas id="fastTvChart"></canvas></div>
             </div>
             <div class="insight-box-side">
                 <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
-                <div class="editable-text" contenteditable="true">
+                <div class="editable-text" contenteditable="false">
                     <p>Samsung TV+ lidera com folga. Oportunidade de crescer em LG Channels.</p>
                 </div>
             </div>
@@ -729,36 +743,36 @@
             <div style="display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;">                
                 <div style="width: 48%;">
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>1. REMO</span> <span style="color:var(--neon-green)">14 Jogos</span>
+                        <span>1. CORITIBA</span> <span style="color:var(--neon-green)">15 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
                         <span>2. GOIÁS</span> <span style="color:var(--neon-green)">14 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>3. ATHLETICO-PR</span> <span style="color:var(--neon-green)">11 Jogos</span>
+                        <span>3. REMO</span> <span style="color:var(--neon-green)">14 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>4. AVAÍ</span> <span style="color:var(--neon-green)">11 Jogos</span>
+                        <span>4. ATHLETICO-PR</span> <span style="color:var(--neon-green)">11 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>5. CEARÁ</span> <span style="color:var(--neon-green)">10 Jogos</span>
+                        <span>5. AVAÍ</span> <span style="color:var(--neon-green)">11 Jogos</span>
                     </div>
                 </div>
                 <div style="width: 48%;">
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>6. SPORT</span> <span style="color:var(--neon-green)">9 Jogos</span>
+                        <span>6. MUDAR</span> <span style="color:var(--neon-green)">9 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>7. CRB</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                        <span>7. MUDAR</span> <span style="color:var(--neon-green)">8 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>8. VILA NOVA</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                        <span>8. MUDAR</span> <span style="color:var(--neon-green)">8 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>9. PONTE PRETA</span> <span style="color:var(--neon-green)">7 Jogos</span>
+                        <span>9. MUDAR</span> <span style="color:var(--neon-green)">7 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border: none; padding: 10px 0; width: 100%;">
-                        <span>10. VITÓRIA</span> <span style="color:var(--neon-green)">6 Jogos</span>
+                        <span>10. MUDAR</span> <span style="color:var(--neon-green)">6 Jogos</span>
                     </div>
                 </div>
             </div>
@@ -832,10 +846,16 @@
             </div>
         </div>
 
-        <footer style="text-align: center; margin-top: 80px; color: #444; font-size: 0.8rem;">
-            NWB + SPORTS © 2025 | Relatório Confidencial
-        </footer>
+        <img src="empresas-n.png" 
+        alt="Logo NSports + NWB" 
+        class="mx-auto block h-12 w-auto md:h-16"
+        style=" margin-top: 140px; display: block; margin: 0 auto; filter: invert(10%) sepia(94%) saturate(5639%) hue-rotate(349deg) brightness(90%) contrast(106%); width: 150px; height: auto;">
+        
+        <br>
 
+        <footer style="text-align: center; color: #444; font-size: 0.8rem;">
+            NWB + NSPORTS © 2025 | Relatório Confidencial
+        </footer>
     </div>
 
     <script>
@@ -904,8 +924,8 @@
         new Chart(document.getElementById('regionsChart'), {
             type: 'bar',
             data: {
-                labels: ['Sudeste', 'Nordeste', 'Sul', 'Centro-Oeste', 'Norte'],
-                datasets: [{ label: 'Views', data: [62, 18, 12, 5, 3], backgroundColor: ['#ccff00', '#aaee00', '#88cc00', '#66aa00', '#448800'], borderRadius: 4 }]
+                labels: ['Norte', 'Sul', 'Nordeste', 'Sudeste', 'Centro-Oeste'],
+                datasets: [{ label: 'Views', data: [12026556, 5521269, 4835507, 4473903, 2514698], backgroundColor: ['#ccff00', '#aaee00', '#88cc00', '#66aa00', '#448800'], borderRadius: 4 }]
             }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
@@ -913,8 +933,8 @@
         new Chart(document.getElementById('countryChart'), {
             type: 'bar',
             data: {
-                labels: ['🇧🇷 Brasil', '🇺🇸 EUA', '🇵🇹 Portugal', '🇬🇧 UK', '🇯🇵 Japão'],
-                datasets: [{ label: 'Views', data: [92, 3.5, 2.0, 1.5, 1.0], backgroundColor: '#333', borderColor: '#ccff00', borderWidth: 1, borderRadius: 4 }]
+                labels: ['Brasil', 'EUA', 'Portugal', 'México', 'Argentina'],
+                datasets: [{ label: 'Views', data: [35739877, 118392, 71983, 26460, 25402], backgroundColor: '#333', borderColor: '#ccff00', borderWidth: 1, borderRadius: 4 }]
             }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
@@ -922,22 +942,22 @@
        // Dados: Uma cor única por métrica
         const platformData = {
             views: { 
-                data: [1085820, 9403, 51006, 512288], 
+                data: [257050000, 25120000, 10610000, 36659659], 
                 color: '#ccff00', // Verde
                 label: 'Visualizações'
             },
             alcance: { 
-                data: [475372, 0, 51098, 0], 
+                data: [0, 0, 0, 0], 
                 color: '#8a2be2', // Roxo
                 label: 'Alcance'
             },
             engajamento: { 
-                data: [9551, 628, 238, 16541], 
+                data: [5770000, 633570, 70520, 856514], 
                 color: '#ff9900', // Laranja
                 label: 'Engajamento'
             },
             posts: { 
-                data: [6, 9, 7, 44], 
+                data: [1020, 393, 326, 193], 
                 color: '#ff3333', // Vermelho
                 label: 'Posts Publicados'
             }
@@ -1039,7 +1059,7 @@
                     data: {
                         labels: ['Masculino', 'Feminino'],
                         datasets: [{
-                            data: [91, 9], // 91% e 9%
+                            data: [83, 16.8], // 
                             backgroundColor: [
                                 '#E1306C', // Cor Principal (Rosa/Vermelho)
                                 '#555555'  // Cor Secundária (Cinza escuro)
@@ -1123,22 +1143,44 @@
 
         // Reveal & Counters
         const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); if(entry.target.classList.contains('grid-stats')) startCounters(); } });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('grid-stats')) startCounters();
+                }
+            });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         let started = false;
+
         function startCounters() {
-            if(started) return; started = true;
+            if (started) return;
+            started = true;
+            
             document.querySelectorAll('.number').forEach(c => {
-                const t = +c.dataset.target; const inc = t/40;
+                const t = +c.dataset.target; // Pega o valor final (ex: 34.5)
+                const inc = t / 50; // Define a velocidade do incremento
+                
+                // Verifica se o número alvo é decimal (tem ponto)
+                const isFloat = t % 1 !== 0; 
+
                 const up = () => {
                     const curr = +c.innerText;
-                    if(curr < t) { c.innerText = Math.ceil(curr+inc); setTimeout(up, 30); }
-                    else {
-                        if(t===34.5) c.innerText="34.55M"; else if(t===1.9) c.innerText="1.91M"; else if(t===371) c.innerText="R$ 371K"; else c.innerText=t+"K";
+                    
+                    if (curr < t) {
+                        const nextVal = curr + inc;
+                        // Se for decimal, usa toFixed(1), se não, arredonda normal
+                        c.innerText = isFloat ? nextVal.toFixed(1) : Math.ceil(nextVal);
+                        setTimeout(up, 30);
+                    } else {
+                        // Final da animação: garante que o número seja exato
+                        // Como suas labels no HTML já dizem "Milhões" e "Mil", 
+                        // deixamos apenas o número puro aqui.
+                        c.innerText = t; 
                     }
-                }; up();
+                };
+                up();
             });
         }
 
