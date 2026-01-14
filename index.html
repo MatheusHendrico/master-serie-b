@@ -937,9 +937,9 @@
         new Chart(document.getElementById('viewsChart'), {
             type: 'line',
             data: {
-                labels: ['R1', 'R5', 'R10', 'R15', 'R20', 'R25', 'R30', 'R35', 'R38'],
+                labels: ['R5','R10', 'R15', 'R20', 'R25', 'R30', 'R35', 'R38'],
                 datasets: [{
-                    label: 'Audiência', data: [0.5, 0.6, 0.5, 0.9, 1.2, 1.1, 1.3, 1.4, 1.5],
+                    label: 'Audiência', data: [3237964, 662168326, 666152081, 670458077, 674784341, 677223284, 681230824, 685931013],
                     borderColor: '#ccff00', backgroundColor: 'rgba(138, 43, 226, 0.15)', borderWidth: 3, fill: true, tension: 0.4
                 }]
             }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
@@ -949,8 +949,21 @@
         new Chart(document.getElementById('rodadaChart'), {
             type: 'bar',
             data: {
-                labels: ['R1-5', 'R6-10', 'R11-15', 'R16-20', 'R21-25', 'R26-30', 'R31-35', 'R36-38'],
-                datasets: [{ label: 'Views', data: [2.5, 3.1, 2.8, 4.5, 5.2, 6.0, 7.1, 4.2], backgroundColor: '#8a2be2', borderRadius: 5 }]
+                labels: [
+                        'Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 
+                        'Semana 7', 'Semana 8', 'Semana 9', 'Semana 10', 'Semana 11', 'Semana 12', 
+                        'Semana 13', 'Semana 14', 'Semana 15', 'Semana 16', 'Semana 17', 'Semana 18', 
+                        'Semana 19', 'Semana 20', 'Semana 21', 'Semana 22', 'Semana 23', 'Semana 24', 
+                        'Semana 25', 'Semana 26', 'Semana 27', 'Semana 28', 'Semana 29', 'Semana 30', 
+                        'Semana 31', 'Semana 32', 'Semana 33', 'Semana 34', 'Semana 35'
+                        ],
+                datasets: [{ label: 'Views', data: [
+                    394734, 1399090, 2205603, 3237964, 4049253, 4705437, 4893051, 6145749, 
+                    6640510, 7501569, 8624224, 9113813, 9418220, 10624265, 11423653, 12294071, 
+                    13311756, 14749959, 16124849, 17230093, 18354035, 19595724, 20026839, 20971855, 
+                    22046632, 22711446, 24059020, 26210886, 27069272, 28887021, 29859601, 30785066, 
+                    32123459, 33146943, 34559790], 
+                    backgroundColor: '#8a2be2', borderRadius: 5 }]
             }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } }
         });
 
