@@ -190,9 +190,9 @@
         .ranking-box {
             background: #111; border-radius: 20px; padding: 25px; border: 1px solid #222;
         }
-        .ranking-list { list-style: none; max-height: 400px; overflow-y: auto; padding-right:5px;}
+        .ranking-list { list-style: none; max-height: 600px; overflow-y: auto;}
         .ranking-item {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: left; justify-content: space-between;
             padding: 10px 0; border-bottom: 1px solid #222; font-size: 0.85rem;
         }
         .ranking-item:hover { background: #161616; }
@@ -379,7 +379,7 @@
     <div class="container">
         <div class="grid-stats reveal">
             <div class="stat-card">
-                <span class="number" data-target="34.5">0</span>
+                <span class="number" data-target="36.6">0</span>
                 <span class="label">Milhões de Views</span>
             </div>
             <div class="stat-card">
@@ -700,7 +700,7 @@
             
             <div class="ranking-grid">
                 <div class="ranking-box">
-                    <div class="chart-title" style="border:none; padding:0; margin-bottom: 10px;">Top 10 Posts</div>
+                    <div class="chart-title" style="margin-bottom: 10px; border-left-color: #00ff00;">Top 10 Posts</div>
                     <div class="ranking-tabs">
                         <button class="tab-btn active" onclick="filterPosts('all', this)">Geral</button>
                         <button class="tab-btn" onclick="filterPosts('insta', this)">Insta</button>
@@ -713,26 +713,29 @@
                 <div class="ranking-box">
                     <div class="chart-title" style="border-left-color: #ff9900;">Top 10 Melhores Momentos</div>
                     <ul class="ranking-list">
-                        <li class="ranking-item"><span class="rank-num">1</span> <span class="rank-content">Golaço Bicicleta (Goiás)</span> <span class="rank-val">1.2M</span></li>
-                        <li class="ranking-item"><span class="rank-num">2</span> <span class="rank-content">Frango do Goleiro (R04)</span> <span class="rank-val">980K</span></li>
-                        <li class="ranking-item"><span class="rank-num">3</span> <span class="rank-content">Defesa Penalti (Remo)</span> <span class="rank-val">850K</span></li>
-                        <li class="ranking-item"><span class="rank-num">4</span> <span class="rank-content">Briga Generalizada R20</span> <span class="rank-val">720K</span></li>
-                        <li class="ranking-item"><span class="rank-num">5</span> <span class="rank-content">Drible da Vaca (Ceará)</span> <span class="rank-val">600K</span></li>
-                        <li class="ranking-item"><span class="rank-num">6</span> <span class="rank-content">Gol Olímpico</span> <span class="rank-val">550K</span></li>
-                        <li class="ranking-item"><span class="rank-num">7</span> <span class="rank-content">Invasão Cachorro</span> <span class="rank-val">490K</span></li>
+                        <li class="ranking-item"><span class="rank-num">1</span> <a href="https://www.youtube.com/watch?v=v0I3yeT_K68" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">OPERÁRIO 0 X 0 PAYSANDU</a> <span class="rank-val">107K</span></li>
+                        <li class="ranking-item"><span class="rank-num">2</span> <a href="https://www.youtube.com/watch?v=oOBFuSJzCZc" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">PROVOCAÇÃO, BRIGA E GOLAÇO!</a> <span class="rank-val">107K</span></li>
+                        <li class="ranking-item"><span class="rank-num">3</span> <a href="https://www.youtube.com/watch?v=Xoad9qGlsm8" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">GOL DE PÊNALTI E LANCE POLÊMICO</a> <span class="rank-val">97K</span></li>
+                        <li class="ranking-item"><span class="rank-num">4</span> <a href="https://www.youtube.com/watch?v=VerHZGaLXQc" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">CHAPECOENSE 1 X 2 GOIÁS</a> <span class="rank-val">86K</span></li>
+                        <li class="ranking-item"><span class="rank-num">5</span> <a href="https://www.youtube.com/watch?v=JD67_VzZ7QU" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">REMO 2 X 1 ATHLETICO - PR</a> <span class="rank-val">76k</span></li>
+                        <li class="ranking-item"><span class="rank-num">6</span> <a href="https://www.youtube.com/watch?v=mp_0EKeBmcw" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">GOIÁS 1 X 0 NOVORIZONTINO</a> <span class="rank-val">73K</span></li>
+                        <li class="ranking-item"><span class="rank-num">7</span> <a href="https://www.youtube.com/watch?v=bIxTIOc_9QI" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">EXPULSÃO E CONFUSÃO GENERALIZADA EM ARARAQUARA</a> <span class="rank-val">73K</span></li>
+                        <li class="ranking-item"><span class="rank-num">8</span> <a href="https://www.youtube.com/watch?v=muETb5UYhu8" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">VAR, EXPULSÕES E MUITOS GOLS</a> <span class="rank-val">72k</span></li>
+                        <li class="ranking-item"><span class="rank-num">9</span> <a href="https://www.youtube.com/watch?v=0lSXYsYKwxk" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">NOVORIZONTINO 1 X 2 CORITIBA</a> <span class="rank-val">72K</span></li>
+                        <li class="ranking-item"><span class="rank-num">10</span> <a href="https://www.youtube.com/watch?v=E05eC553JZs" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">CHAPECOENSE 2 X 3 ATHLETICO-PR</a> <span class="rank-val">68K</span></li>
                     </ul>
                 </div>
 
                 <div class="ranking-box">
                     <div class="chart-title" style="border-left-color: #ff3333;">Top 10 Lives (Pré-VOD)</div>
                     <ul class="ranking-list">
-                        <li class="ranking-item"><span class="rank-num">1</span> <span class="rank-content">Paysandu x Remo</span> <span class="rank-val">220K</span></li>
-                        <li class="ranking-item"><span class="rank-num">2</span> <span class="rank-content">Coritiba x Santos</span> <span class="rank-val">180K</span></li>
-                        <li class="ranking-item"><span class="rank-num">3</span> <span class="rank-content">Goiás x Vila Nova</span> <span class="rank-val">150K</span></li>
-                        <li class="ranking-item"><span class="rank-num">4</span> <span class="rank-content">Sport x Ceará</span> <span class="rank-val">135K</span></li>
-                        <li class="ranking-item"><span class="rank-num">5</span> <span class="rank-content">Santos x Ponte</span> <span class="rank-val">120K</span></li>
-                        <li class="ranking-item"><span class="rank-num">6</span> <span class="rank-content">Avaí x Figueirense</span> <span class="rank-val">110K</span></li>
-                        <li class="ranking-item"><span class="rank-num">7</span> <span class="rank-content">Rodada Final</span> <span class="rank-val">105K</span></li>
+                        <li class="ranking-item"><span class="rank-num">1</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Paysandu x Remo</a> <span class="rank-val">220K</span></li>
+                        <li class="ranking-item"><span class="rank-num">2</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Coritiba x Santos</a> <span class="rank-val">180K</span></li>
+                        <li class="ranking-item"><span class="rank-num">3</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Goiás x Vila Nova</a> <span class="rank-val">150K</span></li>
+                        <li class="ranking-item"><span class="rank-num">4</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Sport x Ceará</a> <span class="rank-val">135K</span></li>
+                        <li class="ranking-item"><span class="rank-num">5</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Santos x Ponte</a> <span class="rank-val">120K</span></li>
+                        <li class="ranking-item"><span class="rank-num">6</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Avaí x Figueirense</a> <span class="rank-val">110K</span></li>
+                        <li class="ranking-item"><span class="rank-num">7</span> <a href="" class="rank-content" style="text-decoration: none; color: inherit;" target="_blank">Rodada Final</a> <span class="rank-val">105K</span></li>
                     </ul>
                 </div>
             </div>
