@@ -394,7 +394,13 @@
                 <span class="number" data-target="40.3">0</span>
                 <span class="label">Mil Média Espec. Simultâneos</span>
             </div>
+            <div class="stat-card">
+                <span class="number" data-target="820">0</span>
+                <span class="label">Mil+ Views Fast TV</span>
+            </div>
         </div>
+        <span class="" style="display: block; font-size: 0.75rem; color: #E1306C; font-style: italic; margin-bottom: 80px; margin-top: -60px; text-align: right;">*A OffGrid não entrega a granularidade dos dados de Fast TV do canal Desimpedidos</span>
+        
 
             
             <section class="mb-6" style="display: flex; flex-direction: row; gap: 2rem; width: 100%;">
@@ -403,7 +409,7 @@
                     <ul class="space-y-6 text-sm">
                         <li>
                             <strong class="block text-white/70 text-xs uppercase mb-1">Período</strong>
-                            <span class="font-bold text-lg">17/10/2025 - 14/11/2025</span>
+                            <span class="font-bold text-lg">30/03/2025 - 01/12/2025</span>
                         </li>
                         <li>
                             <strong class="block text-white/70 text-xs uppercase mb-1">Redes Sociais</strong>
@@ -622,7 +628,6 @@
                                 <tr>
                                     <th style="padding: 15px; text-align: left;">Rede</th>
                                     <th style="padding: 15px; text-align: right;">Views</th>
-                                    <th style="padding: 15px; text-align: right;">Alcance</th>
                                     <th style="padding: 15px; text-align: right;">Engajamento</th>                                                                 
                                     <th style="padding: 15px; text-align: right;">Posts</th>
                                 </tr>
@@ -633,7 +638,6 @@
                                         <i class="fa-brands fa-instagram" style="color: #E1306C; margin-right: 2x; width: 20px;"></i>Instagram
                                     </td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">257M</td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">5.77M</td>
                                     <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">1.02K</td>
                                 </tr>
@@ -642,7 +646,6 @@
                                         <i class="fa-brands fa-tiktok" style="color: #fff; margin-right: 2px; width: 20px;"></i>TikTok
                                     </td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">25.12M</td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">633.57K</td>
                                     <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">393</td>
                                 </tr>
@@ -651,7 +654,6 @@
                                         <i class="fa-brands fa-facebook" style="color: #1877F2; margin-right: 2px; width: 20px;"></i>Facebook
                                     </td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">10.61M</td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">70.52K</td>
                                     <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">326</td>
                                 </tr>
@@ -660,7 +662,6 @@
                                         <i class="fa-brands fa-youtube" style="color: #FF0000; margin-right: 2px; width: 20px;"></i>YouTube
                                     </td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">36.69M</td>
-                                    <td style="padding: 15px; text-align: right; color: #ccc;">falta</td>
                                     <td style="padding: 15px; text-align: right; color: #ccc;">856K</td>
                                     <td style="padding: 15px; text-align: right; color: var(--electric-purple); font-weight: bold;">193</td>
                                 </tr>
@@ -675,10 +676,6 @@
                         <button onclick="updateChart('views')" id="btn-views" class="switch-btn" 
                             style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
                             VIEWS
-                        </button>
-                        <button onclick="updateChart('alcance')" id="btn-alcance" class="switch-btn" 
-                            style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
-                            ALCANCE
                         </button>
                         <button onclick="updateChart('engajamento')" id="btn-engajamento" class="switch-btn" 
                             style="padding: 8px 20px; font-size: 0.75rem; letter-spacing: 1px;">
@@ -695,22 +692,6 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-
-        <div class="analytics-row full-width reveal">
-            <div class="chart-box">
-                <div class="chart-title">
-                    <span>FAST TV (Por Canal)</span>
-                    <button class="insight-toggle-btn" onclick="toggleInsight(this)">Insights <i class="fas fa-lightbulb"></i></button>
-                </div>
-                <div class="chart-content"><canvas id="fastTvChart"></canvas></div>
-            </div>
-            <div class="insight-box-side">
-                <div class="insight-title-small"><i class="fas fa-edit"></i> Notas do Analista</div>
-                <div class="editable-text" contenteditable="false">
-                    <p>Samsung TV+ lidera com folga. Oportunidade de crescer em LG Channels.</p>
-                </div>
             </div>
         </div>
 
@@ -782,19 +763,19 @@
                 </div>
                 <div style="width: 48%;">
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>6. MUDAR</span> <span style="color:var(--neon-green)">9 Jogos</span>
+                        <span>6. AMÉRICA-MG</span> <span style="color:var(--neon-green)">9 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>7. MUDAR</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                        <span>7. CHAPECOENSE</span> <span style="color:var(--neon-green)">9 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>8. MUDAR</span> <span style="color:var(--neon-green)">8 Jogos</span>
+                        <span>8. CRB</span> <span style="color:var(--neon-green)">9 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; width: 100%;">
-                        <span>9. MUDAR</span> <span style="color:var(--neon-green)">7 Jogos</span>
+                        <span>9. FERROVIÁRIA-SP</span> <span style="color:var(--neon-green)">9 Jogos</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; border: none; padding: 10px 0; width: 100%;">
-                        <span>10. MUDAR</span> <span style="color:var(--neon-green)">6 Jogos</span>
+                        <span>10. PAYSANDU</span> <span style="color:var(--neon-green)">8 Jogos</span>
                     </div>
                 </div>
             </div>
