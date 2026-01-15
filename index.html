@@ -1510,38 +1510,44 @@
         const partnersData = {
             'mrv': {
                 name: 'MRV',
+                // Adicionei os links aqui (coloquei links de exemplo)
+                buttons: [
+                    { label: 'Dash', url: 'https://onesheet.nwb.com.br/report/_2025_mrv_-_desi-x5Rk7SQJlwQB/overview' },
+                    { label: 'Pós Venda', url: 'https://docs.google.com/presentation/d/1tPwYRHAkq8B1Pf3UbX5BJXdkvnEWMv1fI8ZAUJmGI54/edit?slide=id.g39bb8bcf56c_1_468#slide=id.g39bb8bcf56c_1_468' } 
+                ],
                 deliveries: [
-                    'Naming Rights do Campeonato',
-                    'Inserções de TV (L-Shape) em todos os jogos',
-                    'Ativação "Craque da Rodada"',
-                    '30 Posts Collab no Instagram'
+                    '<strong>Integração Total:</strong> O estúdio vira um "Apê MRV" funcional, inserindo a marca na narrativa sem interromper o entretenimento.',
+                    '<strong>Resultados:</strong> A exposição orgânica aumenta em 68% a propensão de compra, segundo a Nielsen.',
+                    '<strong>Conceito:</strong> União de futebol e moradia via #ApêMRVDesimpedido e #TemumapêMRVpravocê'
                 ]
             },
             'alfa': {
                 name: 'Alfa Bet',
+                buttons: [], // Sem botões
                 deliveries: [
-                    'Patrocínio do "Apito Solidário"',
-                    'Bares temáticos nos estádios (Nordeste)',
-                    'Inserções no Intervalo (Comercial 30")',
-                    'Brindes exclusivos para torcedores'
+                    'Em breve novidades.'
                 ]
             },
             'reals': {
                 name: 'Reals Bet',
+                buttons: [
+                    { label: 'Dash', url: 'https://onesheet.nwb.com.br/report/_2025_reals_bet_-ge7Gdzkzbo0T/overview' }
+                ],
                 deliveries: [
-                    'Transmissão simultânea de 38 jogos',
-                    'Destaque na Home do Prime Video',
-                    'Série Documental "Bastidores da B"',
-                    'Banner rotativo no App'
+                    '<strong>Entretenimento e Adrenalina:</strong> A parceria une a vibração da arquibancada à emoção das apostas em tempo real no streaming.',
+                    '<strong>Cobertura "De Torcedor para Torcedor":</strong> Conteúdo imersivo e exclusivo que transforma cada rodada da Série B em um espetáculo de engajamento.',
+                    '<strong>Ações no Campo:</strong> Interações presenciais no pré, durante e pós-jogo comandadas pelo repórter Lucas Faraldo sob a hashtag #RealsNoDesimpedidos'
                 ]
             },
             'kto': {
                 name: 'KTO',
+                buttons: [
+                    { label: 'Report', url: 'https://drive.google.com/file/d/1KjtA5eqrh6H6pTuBifOkKZpPduz9cLY6/view?usp=sharing' }
+                ],
                 deliveries: [
-                    'Carro Oficial da Arbitragem',
-                    'Exposição de Carro no Gramado (Finais)',
-                    'Logo no uniforme dos Gandulas',
-                    'L-Shape animado em Gols'
+                    '<strong>Onipresença Multiplataforma:</strong> A marca se conecta ao torcedor em todos os pontos da jornada esportiva, garantindo visibilidade em diferentes telas.',
+                    '<strong>Experiência Interativa:</strong> A estratégia híbrida transforma o consumo passivo em entretenimento imersivo, elevando o engajamento da audiência.',
+                    '<strong>Dinâmicas de Produto:</strong> Ativações diretas via #KTO focadas em diferenciais da casa, como "Ganho Antecipado", "Chance Extra" e "Giro KTO / Clube KTO".'
                 ]
             }
         };
@@ -1555,30 +1561,91 @@
             const title = document.getElementById('modalTitle');
             const list = document.getElementById('modalList');
 
-            // Preenche os dados
+            // 1. Preenche Título e Limpa Lista
             title.innerText = data.name;
-            list.innerHTML = ''; // Limpa lista anterior
+            list.innerHTML = ''; 
             
+            // 2. Preenche a Lista com espaçamento melhor
             data.deliveries.forEach(item => {
                 const li = document.createElement('li');
                 li.className = 'modal-item';
-                li.innerHTML = `<i class="fas fa-check-circle"></i> ${item}`;
+                
+                // ESTILOS DE ESPAÇAMENTO E ALINHAMENTO (Aqui resolve a bagunça)
+                li.style.display = 'flex';            // Alinha icone e texto lado a lado
+                li.style.alignItems = 'flex-start';   // Icone fica no topo se o texto quebrar
+                li.style.marginBottom = '20px';       // Espaço maior entre os itens
+                li.style.lineHeight = '1.5';          // Texto mais respirável
+                li.style.listStyle = 'none';          // Remove bolinhas padrão se houver
+                
+                // Separa o título (antes dos dois pontos) para colocar em negrito visualmente
+                let contentHTML = item;
+                if(item.includes(':')) {
+                    const parts = item.split(':');
+                    // Pega a primeira parte, deixa negrito, e junta com o resto
+                    const header = parts.shift(); 
+                    const body = parts.join(':');
+                    contentHTML = `<strong>${header}:</strong> ${body}`;
+                }
+
+                // Ícone com margem direita para não colar no texto
+                li.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 10px; margin-top: 4px; flex-shrink: 0;"></i> <span>${contentHTML}</span>`;
                 list.appendChild(li);
             });
 
-            // Mostra o modal (Flex para centralizar)
+            // 2. LÓGICA DOS BOTÕES (Tudo via JS)
+            
+            // Verifica se já existe o container de botões, se não cria um
+            let btnContainer = document.getElementById('dynamic-btn-container');
+            
+            if (!btnContainer) {
+                btnContainer = document.createElement('div');
+                btnContainer.id = 'dynamic-btn-container';
+                // Estilo básico do container para centralizar
+                btnContainer.style.marginTop = '20px';
+                btnContainer.style.display = 'flex';
+                btnContainer.style.gap = '10px';
+                btnContainer.style.justifyContent = 'center';
+                
+                // Insere logo após a lista (dentro do modal-content)
+                list.parentNode.insertBefore(btnContainer, list.nextSibling);
+            }
+            
+            // Limpa botões antigos
+            btnContainer.innerHTML = '';
+
+            // Cria os botões se existirem no array
+            if (data.buttons && data.buttons.length > 0) {
+                data.buttons.forEach(btn => {
+                    const a = document.createElement('a');
+                    a.innerText = btn.label;
+                    a.href = btn.url;
+                    a.target = '_blank';
+                    
+                    // Estilo do botão direto aqui (sem CSS externo)
+                    a.style.display = 'inline-block';
+                    a.style.padding = '10px 20px';
+                    a.style.backgroundColor = '#00ff00';
+                    a.style.color = '#fff';
+                    a.style.textDecoration = 'none';
+                    a.style.borderRadius = '5px';
+                    a.style.fontWeight = 'bold';
+                    a.style.cursor = 'pointer';
+                    
+                    btnContainer.appendChild(a);
+                });
+            }
+
+            // Mostra o modal
             modal.style.display = 'flex';
         }
 
         function closePartnerModal(event) {
-            // Fecha se clicar no Overlay (fundo) ou no Botão X
             const modal = document.getElementById('partnerModal');
             if (event === null || event.target === modal) {
                 modal.style.display = 'none';
             }
         }
-        
-        // Fecha com tecla ESC também
+
         document.addEventListener('keydown', function(e) {
             if(e.key === "Escape") {
                 document.getElementById('partnerModal').style.display = 'none';
